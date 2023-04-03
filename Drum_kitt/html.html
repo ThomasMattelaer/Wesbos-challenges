@@ -5,9 +5,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Drum kit</title>
+  <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 <body>
-<div class="keys">
+
+<div class="keys" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://images.unsplash.com/photo-1602939444907-6e688c594a66?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80);">
   <div data-key="65" class="key">
     <kbd>A</kbd>
     <span class="sound">Clap</span>
@@ -29,6 +31,32 @@
     <span class="sound">Snare</span>
   </div>
 </div>
+
+<audio data-key="65" src="../audio/synth-stab.wav"></audio>
+<audio data-key="90" src="../audio/cymbal.wav"></audio>
+<audio data-key="69" src="../audio/synth-stab-minor.wav"></audio>
+<audio data-key="82" src="../audio/clap.wav"></audio>
+<audio data-key="84" src="../audio/snare.wav"></audio>
+
+<script>
+window.addEventListener('keyup',  function(event){
+  const audio = document.querySelector(`audio[data-key="${event.keyCode}"]`);
+  const key = document.querySelector(`.key[data-key="${event.keyCode}"]`);
+  if(!audio) return;
+  audio.currentTime = 0;
+  audio.play();
+  key.classList.add('playing');
+  });
+
+
+  function removeTransition(event) {
+    if(event.propertyName !== 'transform') return;
+    this.classList.remove('playing')
+  };
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+</script>
 
 </body>
 </html>
